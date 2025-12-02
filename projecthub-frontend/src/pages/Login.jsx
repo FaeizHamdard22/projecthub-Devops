@@ -17,7 +17,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage("در حال ورود...");
+    setMessage("entering to Dashboard...");
 
     try {
       const res = await fetch("http://192.168.56.10:5000/api/auth/login", {
