@@ -33,7 +33,7 @@ function Register() {
         return;
       }
 
-      setMessage("ثبت‌نام موفق! حالا می‌تونی لاگین کنی.");
+      setMessage("GREAT , you registerd.");
     } catch (error) {
       setMessage("ارتباط برقرار نشد، انگار سرور قهر کرده.");
     }
