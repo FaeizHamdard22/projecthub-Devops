@@ -22,7 +22,7 @@ jobs:
       - name: Deploy to Dev Server
         run: |
           ssh -i ~/.ssh/id_rsa vagrant@192.168.56.10 "
-            cd /home/vagrant/projecthub \
+            cd /home/vagrant/projecthub-Devops\
             && docker compose down \
             && git pull origin main \
             && docker compose up --build -d
