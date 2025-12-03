@@ -9,7 +9,7 @@ mongoose.connect(process.env.MONGO_URI)
     app.listen(PORT,'0.0.0.0', () => {
       console.log('Server is running on port : ' + PORT);
       console.log("Auto-deploy test... ");
-      console.log("CI test");
+      console.log("CI test 2");
     });
   })
   .catch(err => console.error(err));
