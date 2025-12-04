@@ -41,14 +41,16 @@ ProjectHub is fully dockerized for easy deployment.
 
 ```bash
 docker compose up --build -d
-GitHub Deployment Workflow
+```
+
+# GitHub Deployment Workflow
 The project uses a single GitHub Actions workflow for deployment:
 
 Branch	Target Server	Steps
 dev	Vagrant Development	SSH to vagrant@192.168.56.10, pull dev branch, restart Docker
 main	Production Server (AWS)	SSH to production host, pull main branch, restart Docker
 
-Workflow Steps:
+# Workflow Steps:
 
 Checkout the latest code from GitHub
 
@@ -59,29 +61,33 @@ Deploy the application by pulling the latest code and restarting Docker containe
 Local Development
 Clone the repository:
 
-bash
+```bash
 Copy code
 git clone <repo-url>
 cd projecthub-Devops
+```
 Install dependencies:
 
-bash
+```bash
 Copy code
 npm install
+```
 Setup your .env file (copy from .env.example)
 
 Start frontend and backend:
 
-bash
+```bash
 Copy code
 npm run dev
+```
 Access the app:
 
-Frontend: http://localhost:3000
+Frontend: http://localhost:5173
 
 Backend API: http://localhost:5000
 
-Summary
+# Summary
+
 ProjectHub is a full-stack project management app with:
 
 Vagrant-based isolated development environments
