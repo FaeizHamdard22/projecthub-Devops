@@ -1,101 +1,95 @@
 # ProjectHub
 
-ProjectHub is a project management application built using React, Node.js, and MongoDB. It helps teams and individuals organize, track, and manage projects efficiently.
+ProjectHub is a **full-stack project management application** built with **React**, **Node.js**, and **MongoDB**.  
+It helps teams and individuals organize, track, and manage projects efficiently.
 
-Development Environment
+---
 
-During development, Vagrant was used to create isolated environments. The backend API in the Vagrant environment was accessible at 192.168.56.10. For local development outside Vagrant, make sure to update API endpoints to localhost or the appropriate local IP.
+## Development Environment
 
-Vagrant setup included:
+During development, **Vagrant** was used to create isolated environments.
 
-Herat VM: 8 GB RAM, 2 CPU cores
+- **Backend API (Vagrant)**: `192.168.56.10`  
+- **Local Development**: Update API endpoints to `localhost` or your local IP
 
-Kabul VM: 2 GB RAM, 1 CPU core
+**Vagrant Setup:**
 
-Ports Forwarded for Development
+| VM        | RAM  | CPU Cores |
+|-----------|------|-----------|
+| Herat VM  | 8 GB | 2         |
+| Kabul VM  | 2 GB | 1         |
 
-Backend API: 5000
+**Ports for Development:**
 
-Frontend React app: 3000
+- Backend API: `5000`  
+- Frontend React app: `3000`  
+- Vite dev server: `5173`
 
-Vite dev server: 5173
+---
 
-Docker Setup
+## Docker Setup
 
-ProjectHub has been fully dockerized for easy deployment. The project includes:
+ProjectHub is fully dockerized for easy deployment.
 
-Dockerfile for building backend and frontend services
+**Included files:**
 
-docker-compose.yml for orchestrating multiple services
+- `Dockerfile` – build backend and frontend  
+- `docker-compose.yml` – orchestrate multiple services  
+- `.env` – environment-specific configuration
 
-.env file for environment-specific configurations
+**Start the application with Docker:**
 
-To start the application using Docker:
-
+```bash
 docker compose up --build -d
-
 GitHub Deployment Workflow
+The project uses a single GitHub Actions workflow for deployment:
 
-The project uses a single GitHub Actions workflow that deploys based on the branch pushed:
+Branch	Target Server	Steps
+dev	Vagrant Development	SSH to vagrant@192.168.56.10, pull dev branch, restart Docker
+main	Production Server (AWS)	SSH to production host, pull main branch, restart Docker
 
-dev branch → deploys to Vagrant development server
+Workflow Steps:
 
-main branch → deploys to production server
+Checkout the latest code from GitHub
 
-Workflow Steps
+Setup SSH key from repository secrets (DEV_SERVER_SSH_KEY or PROD_SERVER_SSH_KEY)
 
-Checkout code: Pull the latest code from GitHub.
-
-Setup SSH key: Uses repository secrets (DEV_SERVER_SSH_KEY or PROD_SERVER_SSH_KEY) to connect to the server.
-
-Deploy:
-
-Dev server:
-
-SSH into vagrant@192.168.56.10
-
-Pull latest code from dev branch
-
-Restart Docker containers
-
-Production server:
-
-SSH into production host (e.g., ubuntu@3.111.40.33)
-
-Pull latest code from main branch
-
-Restart Docker containers
+Deploy the application by pulling the latest code and restarting Docker containers
 
 Local Development
-
 Clone the repository:
 
+bash
+Copy code
 git clone <repo-url>
 cd projecthub-Devops
-
-
 Install dependencies:
 
+bash
+Copy code
 npm install
-
-
-Set up .env file for your local environment (copy from .env.example)
+Setup your .env file (copy from .env.example)
 
 Start frontend and backend:
 
+bash
+Copy code
 npm run dev
+Access the app:
 
+Frontend: http://localhost:3000
 
-Access the frontend at http://localhost:3000 and backend API at http://localhost:5000
+Backend API: http://localhost:5000
 
 Summary
-
 ProjectHub is a full-stack project management app with:
 
-Vagrant-based development environment
+Vagrant-based isolated development environments
 
 Dockerized backend and frontend
 
-GitHub workflow for automated deployment
+GitHub Actions workflow for automated deployment
 
-Clear separation of dev (dev branch → Vagrant) and production (main branch → production server)
+Clear separation between development (dev branch → Vagrant) and production (main branch → server)
+
+
