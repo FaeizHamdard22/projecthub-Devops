@@ -1,29 +1,56 @@
-name: Deploy to Dev
+name: Deploy
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
+      - dev
 
 jobs:
-  deploy:
+
+  deploy_dev:
+    if: github.ref == 'refs/heads/dev'
     runs-on: self-hosted
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup SSH key
+      - name: Setup SSH key (Dev)
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.DEV_SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           echo "StrictHostKeyChecking no" >> ~/.ssh/config
 
-      - name: Deploy to Dev Server
+      - name: Deploy to Dev Server (Vagrant)
         run: |
           ssh -i ~/.ssh/id_rsa vagrant@192.168.56.10 "
-            cd /home/vagrant/projecthub-Devops\
+            cd /home/vagrant/projecthub-Devops \
+            && git pull origin dev \
             && docker compose down \
+            && docker compose up --build -d
+          "
+
+
+  deploy_prod:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup SSH key (Prod)
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.PROD_SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+
+      - name: Deploy to Production Server (AWS)
+        run: |
+          ssh -i ~/.ssh/id_rsa ubuntu@3.111.40.33 "
+            cd /home/ubuntu/projecthub-Devops \
             && git pull origin main \
+            && docker compose down \
             && docker compose up --build -d
           "
