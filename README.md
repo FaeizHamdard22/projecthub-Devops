@@ -62,14 +62,12 @@ Local Development
 Clone the repository:
 
 ```bash
-Copy code
 git clone <repo-url>
 cd projecthub-Devops
 ```
 Install dependencies:
 
 ```bash
-Copy code
 npm install
 ```
 Setup your .env file (copy from .env.example)
@@ -77,7 +75,6 @@ Setup your .env file (copy from .env.example)
 Start frontend and backend:
 
 ```bash
-Copy code
 npm run dev
 ```
 Access the app:
