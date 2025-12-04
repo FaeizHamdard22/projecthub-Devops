@@ -1,0 +1,29 @@
+name: Deploy to Dev
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEV_SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "StrictHostKeyChecking no" >> ~/.ssh/config
+
+      - name: Deploy to Dev Server
+        run: |
+          ssh -i ~/.ssh/id_rsa vagrant@192.168.56.10 "
+            cd /home/vagrant/projecthub-Devops\
+            && docker compose down \
+            && git pull origin main \
+            && docker compose up --build -d
+          "

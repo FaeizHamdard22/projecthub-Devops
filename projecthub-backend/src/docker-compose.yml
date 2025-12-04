@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+
+  mongo:
+    image: mongo:6
+    container_name: projecthub-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./projecthub-backend
+    container_name: projecthub-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./projecthub-backend:/app
+      - /app/node_modules
+    env_file:
+      - ./projecthub-backend/.env
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./projecthub-frontend
+    container_name: projecthub-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./projecthub-frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    env_file:
+      - ./projecthub-frontend/.env
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
